@@ -22,6 +22,7 @@ async function run(){
         await client.connect();
         const fruitCollection = client.db("fruitsInventory").collection("fruit");
 
+        //get data
         app.get('/inventory',async(req,res)=>{
             const query = {};
             const cursor = fruitCollection.find(query);
