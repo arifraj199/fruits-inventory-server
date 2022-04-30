@@ -38,7 +38,7 @@ async function run(){
             res.send(result);
         })
 
-        //update data
+        //update data for quantity
         app.put('/inventory/:id',async(req,res)=>{
             const id = req.params.id;
             const updateQuantity = req.body;
@@ -52,6 +52,15 @@ async function run(){
             const result = await fruitCollection.updateOne(filter,updateDoc,options)
             res.send(result);
         })
+
+        //delete item
+        app.delete('/inventory/:id',async(req,res)=>{
+            const id = req.params.id;
+            const query = {_id:ObjectId(id)};
+            const result = await fruitCollection.deleteOne(query);
+            res.send(result);
+        })
+
     }
     finally{}
 }
