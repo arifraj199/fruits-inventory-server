@@ -39,12 +39,20 @@ async function run(){
         })
 
         //get api with filter email
-        app.get('/additem', async(req,res)=>{
+        app.get('/myitem', async(req,res)=>{
             const email = req.query.email;
             console.log(email);
             const query = {email:email}
             const cursor = fruitCollection.find(query);
             const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        //delete api 
+        app.delete('/myitem/:id',async(req,res)=>{
+            const id = req.params.id;
+            const query = {_id:ObjectId(id)};
+            const result = await fruitCollection.deleteOne(query);
             res.send(result);
         })
 
