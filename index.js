@@ -38,6 +38,13 @@ async function run(){
             res.send(result);
         })
 
+        //post data
+        app.post('/inventory',async(req,res)=>{
+            const newItem = req.body;
+            const result = await fruitCollection.insertOne(newItem);
+            res.send(result);
+        })
+
         //update data for quantity
         app.put('/inventory/:id',async(req,res)=>{
             const id = req.params.id;
