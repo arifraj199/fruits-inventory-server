@@ -38,6 +38,16 @@ async function run(){
             res.send(result);
         })
 
+        //get api with filter email
+        app.get('/additem', async(req,res)=>{
+            const email = req.query.email;
+            console.log(email);
+            const query = {email:email}
+            const cursor = fruitCollection.find(query);
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
         //post data
         app.post('/inventory',async(req,res)=>{
             const newItem = req.body;
