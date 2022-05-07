@@ -8,13 +8,13 @@ require("dotenv").config();
 const app = express();
 
 //necessary middleware
-const corsConfig = {
-  origin:true,
-  credentials:true
-};
+// const corsConfig = {
+//   origin:true,
+//   credentials:true
+// };
 
-app.use(cors(corsConfig));
-app.options("*",cors(corsConfig));
+app.use(cors());
+// app.options("*",cors(corsConfig));
 app.use(express.json());
 
 function verifyJWT(req, res, next) {
