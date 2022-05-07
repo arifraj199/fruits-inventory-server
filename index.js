@@ -8,13 +8,7 @@ require("dotenv").config();
 const app = express();
 
 //necessary middleware
-// const corsConfig = {
-//   origin:true,
-//   credentials:true
-// };
-
 app.use(cors());
-// app.options("*",cors(corsConfig));
 app.use(express.json());
 
 function verifyJWT(req, res, next) {
@@ -27,22 +21,19 @@ function verifyJWT(req, res, next) {
     if (err) {
       return res.status(403).send({ message: "Forbidden access" });
     }
-    console.log('decoded',decoded);
+    console.log("decoded", decoded);
     req.decoded = decoded;
     next();
   });
-
-
 }
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env
-  .DB_PASS}@cluster0.nfrv0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.nfrv0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
 console.log(uri);
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  serverApi: ServerApiVersion.v1
+  serverApi: ServerApiVersion.v1,
 });
 
 async function run() {
@@ -54,7 +45,7 @@ async function run() {
     app.post("/login", async (req, res) => {
       const user = req.body;
       const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "1d"
+        expiresIn: "1d",
       });
       res.send({ accessToken });
     });
@@ -78,15 +69,8 @@ async function run() {
     //get api with filter email
     app.get("/myitem", verifyJWT, async (req, res) => {
       const decodeEmail = req.decoded.email;
-      console.log(decodeEmail);
       const email = req.query.email;
-      console.log(email);
 
-      // const query = { email: email };
-      //   const cursor = fruitCollection.find(query);
-      //   const result = await cursor.toArray();
-      //   res.send(result);
-      
       if (email === decodeEmail) {
         const query = { email: email };
         const cursor = fruitCollection.find(query);
@@ -120,8 +104,8 @@ async function run() {
       const options = { upsert: true };
       const updateDoc = {
         $set: {
-          quantity: updateQuantity.quantity
-        }
+          quantity: updateQuantity.quantity,
+        },
       };
       const result = await fruitCollection.updateOne(
         filter,
